@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <head th:include="common/header_admin :: common-header"/>
+</head>
+<body>
+<div th:include="common/header_admin :: navbar"></div>
+
+<div class="container">
+    <div class="content-pane">
+        <h4> All Books</h4>
+        <hr>
+        <div class="table-responsive">
+            <table id="bookListTable" class="table table-bordered table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Category</th>
+                    <th>List Price</th>
+                    <th>Our Price</th>
+                    <th>Active?</th>
+                    <th>Operation</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="book : ${bookList}">
+                    <tr>
+                        <td><a th:href="@{/admin/bookInfo(id = ${book.id})}"><span th:text="${book.title}"></span></a>
+                        </td>
+                        <td th:text="${book.author}"></td>
+                        <td th:text="${book.category}"></td>
+                        <td th:text="${book.listPrice}"></td>
+                        <td th:text="${book.ourPrice}"></td>
+                        <td th:text="${book.active}"></td>
+                        <td>delete</td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:include="common/header_admin:: body-bottom-scripts">
+    <script>
+        $(document).ready( function () {
+            $('#bookListTable').DataTable();
+        } );
+    </script>
+</div>
+</body>
+</html>

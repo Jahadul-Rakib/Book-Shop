@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="common/header :: common-header"/>
+
+<body>
+<div th:replace="common/header :: navbar"></div>
+<div class="container">
+
+    <div class="row" style="margin-bottom: -100px;">
+        <div class="col-xs-8">
+            <h2 class="section-headline">
+                <h2 class="section-headline" style="margin-top: -40px">
+                    <span> ALL BOOKS</span>
+                </h2>
+            </h2>
+        </div>
+        <div class="col-xs-4">
+            <img src="/image/logo.png" class="img-responsive"/>
+        </div>
+    </div>
+    <hr style="position: absolute; width: 80%; height: 6px; background-color: #333; z-index: -1; margin-top: -80px;"/>
+    <img class="img-responsive" src="/image/wood.png"
+         style="margin-top: -75px; z-index: -1; position: absolute;width: 80%;"/>
+
+    <div class="row" style="margin-top: 100px;">
+        <div class="col-xs-9 col-xs-offset-3">
+            <div th:if="${emptyList}">
+                <h5 style="font-style: italic;">Oops, no result is found. Try something else or try again later.</h5>
+            </div>
+
+            <table border="0" id="allbookList">
+                <thead>
+                <tr>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="book : ${allbookList}">
+
+                    <tr>
+                        <td>
+                            <div th:if="${book != null}">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <a th:href="@{/getDetails?id=}+${book.id}"> <img class="img-responsive"
+                                                                                         style="margin-top: 15px; alignment: left"
+                                                                                         th:src="@{/image/book/}+${book.id}+'.png'"/></a>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <a th:href="@{/getDetails?id=}+${book.id}"><h4 th:text="${book.title}"></h4></a>
+                                        <label>Pulish Date: </label><span th:text="${book.publicationDate}"></span><br>
+                                        <label>Book Author: </label><span th:text="${book.author}"></span><br>
+                                        <label>Book Format: </label><span
+                                            th:text="${#strings.capitalize(book.format)}"></span><br>
+                                        <label>Number Of Pages: </label><span th:text="${book.numberOfPages}"><span>pages</span></span><br>
+                                        <label>Book Price: </label><span style="font-size:x-large;color:#db3208;">$<span
+                                            th:text="${#numbers.formatDecimal(book.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span>
+
+                                        <span style="text-decoration: line-through;">$<span
+                                                th:text="${#numbers.formatDecimal(book.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span>
+                                        <p style="text-justify: auto"
+                                           th:utext="${#strings.abbreviate(book.description, 500)}"></p>
+                                        <hr style="width: auto; height: 2px; ">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div th:replace="common/header :: body-bottom-scripts"></div>
+</body>
+</html>
